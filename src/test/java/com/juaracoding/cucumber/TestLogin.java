@@ -1,0 +1,128 @@
+package com.juaracoding.cucumber;
+
+import com.juaracoding.cucumber.drivers.DriverSingleton;
+import com.juaracoding.cucumber.pages.LoginPage;
+import io.cucumber.java.AfterAll;
+import io.cucumber.java.BeforeAll;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
+
+public class TestLogin {
+
+    public static WebDriver driver;
+    public static LoginPage pageLog;
+
+    @BeforeAll
+    public static void setUp() {
+        DriverSingleton.getInstance("chrome");
+        driver = DriverSingleton.getDriver();
+        pageLog = new LoginPage();
+    }
+
+    @Given("User open browser and url")
+    public void user_open_browser_and_url() {
+        System.out.println("User open browser and url");
+        driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+    }
+
+    @Given("User click button logout")
+    public void user_click_button_logout() {
+        delay(1);
+        System.out.println("User click button logout");
+        pageLog.btnLogout();
+    }
+
+    @Given("User refresh web HRM")
+    public void user_refresh_web_HRM() {
+        delay(1);
+        System.out.println("User refresh web HRM");
+        driver.navigate().refresh();
+    }
+
+    @When("User enter valid username")
+    public void user_enter_valid_username() {
+        System.out.println("User enter valid username");
+        logUs("Admin");
+    }
+
+    @When("User enter valid password")
+    public void user_enter_valid_password() {
+        System.out.println("User enter valid password");
+        logPas("admin123");
+    }
+
+    @When("User click button login")
+    public void user_click_button_login() {
+        System.out.println("User click button login");
+        pageLog.btnLogin();
+    }
+
+    @When("User enter invalid username")
+    public void user_enter_invalid_username() {
+        System.out.println("User enter invalid username");
+        logUs("Yuhuu");
+    }
+
+    @When("User enter invalid password")
+    public void user_enter_invalid_password() {
+        System.out.println("User enter invalid password");
+        logPas("ardian");
+    }
+
+    @When("User empty username")
+    public void user_empty_username() {
+        System.out.println("User empty username");
+        logUs("");
+    }
+
+    @When("User empty password")
+    public void user_empty_password() {
+        System.out.println("User empty password");
+        logPas("");
+        delay(1);
+    }
+
+    @Then("User go to page dashboard")
+    public void user_go_to_page_dashboard() {
+        System.out.println("User go to page dashboard");
+        Assert.assertEquals(pageLog.getTxtDashboard(), "Dashboard");
+    }
+
+    @Then("User get message invalid credential")
+    public void user_get_message_invalid_credential() {
+        System.out.println("User get message invalid credential");
+        Assert.assertEquals(pageLog.getTxtInvalid(), "Invalid credentials");
+    }
+
+    @Then("User get message required")
+    public void user_ge_message_required() {
+        System.out.println("User get message required");
+        Assert.assertEquals(pageLog.getTxtReq(), "Required");
+    }
+
+    @AfterAll
+    public static void close_object() {
+        delay(3);
+        DriverSingleton.closeObjectInstance();
+    }
+
+    public void logUs(String user) {
+        pageLog.enterUsername(user);
+    }
+
+    public void logPas(String pass) {
+        pageLog.enterPassword(pass);
+    }
+
+    static void delay(long detik) {
+        try {
+            Thread.sleep(detik * 1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+}

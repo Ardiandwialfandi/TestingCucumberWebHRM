@@ -13,14 +13,12 @@ import org.testng.Assert;
 public class TestLogin {
 
     public static WebDriver driver;
-    public static LoginPage pageLog;
+    public static LoginPage pageLog = new LoginPage();
 
-    @BeforeAll
-    public static void setUp() {
-        DriverSingleton.getInstance("chrome");
-        driver = DriverSingleton.getDriver();
-        pageLog = new LoginPage();
+    public TestLogin(){
+        driver = Hook.driver;
     }
+
 
     @Given("User open browser and url")
     public void user_open_browser_and_url() {
@@ -30,14 +28,14 @@ public class TestLogin {
 
     @Given("User click button logout")
     public void user_click_button_logout() {
-        delay(1);
+        Hook.delay(1);
         System.out.println("User click button logout");
         pageLog.btnLogout();
     }
 
     @Given("User refresh web HRM")
     public void user_refresh_web_HRM() {
-        delay(1);
+        Hook.delay(1);
         System.out.println("User refresh web HRM");
         driver.navigate().refresh();
     }
@@ -82,7 +80,7 @@ public class TestLogin {
     public void user_empty_password() {
         System.out.println("User empty password");
         logPas("");
-        delay(1);
+        Hook.delay(1);
     }
 
     @Then("User go to page dashboard")
@@ -103,26 +101,12 @@ public class TestLogin {
         Assert.assertEquals(pageLog.getTxtReq(), "Required");
     }
 
-    @AfterAll
-    public static void close_object() {
-        delay(3);
-        DriverSingleton.closeObjectInstance();
-    }
-
     public void logUs(String user) {
         pageLog.enterUsername(user);
     }
 
     public void logPas(String pass) {
         pageLog.enterPassword(pass);
-    }
-
-    static void delay(long detik) {
-        try {
-            Thread.sleep(detik * 1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 }

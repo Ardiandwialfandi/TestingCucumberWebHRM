@@ -50,6 +50,12 @@ public class LoginPage {
     public void enterPassword(String password){
         this.password.sendKeys(password);
     }
+
+    public void login(String username, String password){
+        this.username.sendKeys(username);
+        this.password.sendKeys(password);
+        btnLogin.click();
+    }
     public void btnLogin(){
         btnLogin.click();
     }

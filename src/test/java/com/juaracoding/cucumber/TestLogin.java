@@ -1,6 +1,7 @@
 package com.juaracoding.cucumber;
 
 import com.juaracoding.cucumber.pages.LoginPage;
+import com.juaracoding.cucumber.utils.Constant;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -20,7 +21,7 @@ public class TestLogin {
     @Given("User open browser and url")
     public void user_open_browser_and_url() {
         System.out.println("User open browser and url");
-        driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+        driver.get(Constant.URL);
     }
 
     @Given("User click button logout")
